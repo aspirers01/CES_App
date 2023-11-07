@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "988550128783",
+    "project_id": "ces-app-5a95e",
+    "storage_bucket": "ces-app-5a95e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:988550128783:android:becb7ef4baf3a172f7bcfa",
+        "android_client_info": {
+          "package_name": "com.example.ces_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzjfvT9PS7R54HlZZTtt_vh5sJfdOxTXg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
