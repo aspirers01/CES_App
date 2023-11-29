@@ -19,7 +19,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 
 class Register_UI : AppCompatActivity(), View.OnFocusChangeListener {
+
+    //variable for view binding
     private lateinit var binding: ActivityRegisterUiBinding
+
+    //variable for firebase authentication
     private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,19 +33,24 @@ class Register_UI : AppCompatActivity(), View.OnFocusChangeListener {
         //getting firebase authentication instance
         auth = FirebaseAuth.getInstance()
 
+        //variables for all views
         val name = binding.fullNameEt
         val email = binding.emailEt
         val roll = binding.rollEt
         val password = binding.passwordEt
         val confirm = binding.confirmPasswordEt
+
+        //Sign Up button view
         val actionbutton = binding.register
 
+
+        //focus change listeners for all input fields
         name.onFocusChangeListener = this
         email.onFocusChangeListener = this
         roll.onFocusChangeListener = this
         password.onFocusChangeListener = this
 
-        //enabling sign in button only when all fields are filled and validated
+        //enabling sign in button only when all fields are filled and no error in validation
         val mTextWatcher = object : TextWatcher {
             override fun afterTextChanged(et: Editable?) {
                 actionbutton.isEnabled = checkAllFields()
@@ -60,41 +69,72 @@ class Register_UI : AppCompatActivity(), View.OnFocusChangeListener {
 
 
 
-
-        val login = findViewById<TextView>(R.id.sign_in)
+        //on clicking Back to SignIn text
+        val login = binding.signIn
         login.setOnClickListener{
+
+            //go back to login activity
             val intent = Intent(this, Login_UI::class.java)
             startActivity(intent)
+
+            //don't come back again to this activity
             finish()
         }
 
-        //sign up button
+        //on clicking sign up button
         binding.register.setOnClickListener{
+
+            //getting email and password texts
             val emails = binding.emailEt.text.toString()
             val passwords = binding.passwordEt.text.toString()
+
+            //if all fields are validated and confirm password matches password
             if(checkAllFields() && passwordConfirmed()) {
+
+                //sign up with given email and password
                 auth.createUserWithEmailAndPassword(emails, passwords).addOnCompleteListener{
+
+                    //account created successfully
                     if(it.isSuccessful) {
                         val success = "Account created successfully"
+
+                        //switch to signIn activity
+                        intent = Intent(this, Login_UI::class.java)
+                        startActivity(intent)
+
+                        //display toast
                         Toast.makeText(this, success, Toast.LENGTH_LONG).show()
-                        actionbutton.isEnabled = false
+
+                        //don't come back to this activity
+                        finish()
                     }
                     else {
+
+                        //if account is already registered, show alert dialog
                         val addError = AlertDialog.Builder(this)
                             .setMessage("Account already registered")
                             .setPositiveButton("OK") { _, _ ->
 
                             }.create()
                         addError.show()
+
+                        //disable signUp button until text changed
                         actionbutton.isEnabled = false
                         Log.e("error: ", it.exception.toString())
                     }
                 }
             }
+
+            //if confirm password does not match the entered password
             else {
+                //disable signUp button
                 actionbutton.isEnabled = false
+
+                //show error under confirm password field
                 binding.confirmPasswordTil.error = "Password does not match"
                 binding.confirmPasswordTil.isErrorEnabled = true
+
+                //enable button only when confirm password text is changed
                 val watcher = object : TextWatcher{
                     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                     }
@@ -113,9 +153,8 @@ class Register_UI : AppCompatActivity(), View.OnFocusChangeListener {
     }
 
 
-
+    //validating email
     private fun validateEmail() : Boolean {
-        var actionButton = binding.register
         val email = binding.emailEt.text.toString()
         var errorMessage: String? = null
 
@@ -123,11 +162,13 @@ class Register_UI : AppCompatActivity(), View.OnFocusChangeListener {
             errorMessage = null
         }
 
+        //if email entered doesn't match the email format
         else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
 //            actionButton.isEnabled = false
             errorMessage = "Invalid email"
         }
 
+        //if error message is not null, enable error and errorMessage is displayed as error
         if(errorMessage != null) {
             binding.emailTil.apply {
                 isErrorEnabled = true
@@ -138,6 +179,7 @@ class Register_UI : AppCompatActivity(), View.OnFocusChangeListener {
         return errorMessage == null
     }
 
+    //validating roll number
     private fun validateRoll() : Boolean {
         val roll = binding.rollEt.text.toString()
         var errorMessage: String? = null
@@ -160,6 +202,7 @@ class Register_UI : AppCompatActivity(), View.OnFocusChangeListener {
         return errorMessage == null
     }
 
+    //validate password
     private fun validatePassword() : Boolean {
         val pwd = binding.passwordEt.text.toString()
         var errorMessage: String? = null
@@ -182,6 +225,7 @@ class Register_UI : AppCompatActivity(), View.OnFocusChangeListener {
         return errorMessage == null
     }
 
+    //validating if confirm password and password is matching
     private fun passwordConfirmed() : Boolean{
         val pwd = binding.passwordEt.text.toString()
         val checkpwd = binding.confirmPasswordEt.text.toString()
@@ -191,40 +235,59 @@ class Register_UI : AppCompatActivity(), View.OnFocusChangeListener {
         return true
     }
 
-
+    //checkAllFields for enabling or disabling signUp button and whether to continue for registering
     private fun checkAllFields() : Boolean {
+
+        //getting all texts entered
         val name = binding.fullNameEt.text.toString()
         val email = binding.emailEt.text.toString()
         val roll = binding.rollEt.text.toString()
         val password = binding.passwordEt.text.toString()
         val confirm = binding.confirmPasswordEt.text.toString()
+
+        //validate every field through given conditions
+
+        //if any field is empty
         if (email.isEmpty() || name.isEmpty() || roll.isEmpty() || password.isEmpty() || confirm.isEmpty())
             return false
+
+
         else if(password.length < 8) return false
         else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) return false
         else if(roll.length != 10) return false
+
         return true
     }
 
 
 
+    //on changing focus from one field to another
 
     override fun onFocusChange(view: View?, hasFocus: Boolean) {
         val actionButton = binding.register
         if (view != null){
             when(view.id) {
+
+                //in rollNumber field
                 R.id.rollEt -> {
+
+                    //if focus is on the field in which text is being entered or changed, disable error
                     if(hasFocus) {
                         if(binding.rollTil.isErrorEnabled) {
                             binding.rollTil.isErrorEnabled = false
                         }
                     }else {
                         if(!validateRoll()) {
+                            //disable signUp button if error
                             actionButton.isEnabled = false
                         }
+
+                        //validate and display if any errors
                         validateRoll()
                     }
                 }
+
+                //in email field
                 R.id.emailEt -> {
                     if(hasFocus) {
                         if(binding.emailTil.isErrorEnabled) {
@@ -237,6 +300,8 @@ class Register_UI : AppCompatActivity(), View.OnFocusChangeListener {
                         validateEmail()
                     }
                 }
+
+                //in password field
                 R.id.passwordEt -> {
                     if(hasFocus) {
                         if(binding.passwordTil.isErrorEnabled) {
