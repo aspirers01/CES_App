@@ -15,7 +15,7 @@
         android:layout_height="120dp"
         android:contentDescription="@string/ces_logo"
         android:src="@drawable/ces"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -182,7 +182,7 @@
         android:text="@string/back_to_sign_in"
         android:padding="10dp"
         android:textColor="@color/light_blue_A400"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:textStyle="bold"/>
 
 
