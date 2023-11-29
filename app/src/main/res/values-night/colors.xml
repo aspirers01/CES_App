@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name = "night_white">#000000</color>
+    <color name = "nightBlack">#FFFFFF</color>
+    <color name = "rippleColor">#474545</color>
+    <color name = "green">#009688</color>
+</resources>

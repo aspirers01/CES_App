@@ -1,3 +1,32 @@
 <resources>
     <string name="app_name">Ces_App</string>
+    <string name="login">LOGIN</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="no_account">Don\'t have an account?</string>
+    <string name="sign_up">Sign up</string>
+    <string name="title_activity_splash_screen2">SplashScreen2</string>
+    <string name="login_top">Log in to your account</string>
+    <string name="ces_logo">ces logo</string>
+    <string name="new_account_top">Create new account</string>
+    <string name="full_name">Name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sign_up_caps">SIGN UP</string>
+    <string name="roll_number">Roll Number</string>
+    <string name="back_to_sign_in">Back to Sign in</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="continueE">CONTINUE</string>
+    <string name="cancel">CANCEL</string>
+    <string name="enter_registered_email">Enter Registered Email</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="welcome">Welcome!</string>
+    <string name="profilephoto">profilePhoto</string>
+    <string name="name">Name</string>
+    <string name="exit">Exit</string>
+    <string name="profilepicture">profilePicture</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="forgot_passwor">Forgot Password</string>
+
 </resources>
