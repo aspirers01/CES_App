@@ -40,11 +40,12 @@ class MainActivity : AppCompatActivity() {
         var domain: String? = null
 
         //setting username as email address before @
-        if (email != null) {
-            val index = email.indexOf('@')
-            domain = if (index == -1) null else email.substring(0, index)
-        }
-        if (name == null) {
+
+        if (name.isNullOrBlank()) {
+            if (!email.isNullOrBlank()) {
+                val index = email.indexOf('@')
+                domain = if (index == -1) null else email.substring(0, index)
+            }
             name = domain
         }
 
