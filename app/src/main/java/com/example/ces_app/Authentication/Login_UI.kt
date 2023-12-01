@@ -47,6 +47,8 @@ class Login_UI : AppCompatActivity(), View.OnFocusChangeListener {
     private var oneTapClient: SignInClient? = null
     private var signInRequest: BeginSignInRequest? = null
 
+
+
     //Receiving Google one tap SignIn Intent
     //Activity contract for receiving intent sent from google
     private val oneTapResult = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
@@ -418,6 +420,7 @@ class Login_UI : AppCompatActivity(), View.OnFocusChangeListener {
         else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) return false
         return true
     }
+
 
 
     //when focus is changed from one field to another

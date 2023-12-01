@@ -236,7 +236,7 @@ class Register_UI : AppCompatActivity(), View.OnFocusChangeListener {
     }
 
     //checkAllFields for enabling or disabling signUp button and whether to continue for registering
-    private fun checkAllFields() : Boolean {
+    private fun checkAllFields() : Boolean {1234
 
         //getting all texts entered
         val name = binding.fullNameEt.text.toString()
