@@ -33,6 +33,7 @@ import com.google.firebase.BuildConfig
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.auth
 import kotlinx.coroutines.tasks.await
 
 
@@ -138,13 +139,42 @@ class Login_UI : AppCompatActivity(), View.OnFocusChangeListener {
             Toast.makeText(this, "Sign in failed", Toast.LENGTH_LONG).show()
         }
         else {
-            Toast.makeText(this, "Signed in Successfully!", Toast.LENGTH_LONG).show()
+            var name = user.displayName
+            val email = user.email
+            var domain: String? = null
+
+            //setting username as email address before @
+
+            if (name.isNullOrBlank()) {
+                if (!email.isNullOrBlank()) {
+                    val index = email.indexOf('@')
+                    domain = if (index == -1) null else email.substring(0, index)
+                }
+                name = domain
+            }
+
+            //direct to main activity after sign in
+            Toast.makeText(this, "Signed in as $name!", Toast.LENGTH_LONG).show()
             intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
         }
     }
 
+    //on starting login activity, check if user is already signed in
+    //if yes, direct to main activity else go to login page
+    override fun onStart() {
+        super.onStart()
+        //getting current user
+        val user = auth.currentUser
+
+        //if current user exists, directly go to main activity
+        if(user != null) {
+            intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -302,7 +332,19 @@ class Login_UI : AppCompatActivity(), View.OnFocusChangeListener {
                 //sign in with the provided credentials
                 auth.signInWithEmailAndPassword(email, passwords).addOnCompleteListener {
                     if (it.isSuccessful) {
-                        Toast.makeText(this, "Signed in successfully", Toast.LENGTH_LONG).show()
+                        val user = auth.currentUser
+                        val emails = user?.email
+                        var domain : String? = null
+                        var name : String? = null
+                        if (!emails.isNullOrBlank()) {
+                            val index = email.indexOf('@')
+                            domain = if (index == -1) null else email.substring(0, index)
+                        }
+                        name = domain
+
+
+
+                        Toast.makeText(this, "Signed in as $name", Toast.LENGTH_LONG).show()
                         intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                         finish()
