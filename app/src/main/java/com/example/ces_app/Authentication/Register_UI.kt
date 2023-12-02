@@ -98,6 +98,9 @@ class Register_UI : AppCompatActivity(), View.OnFocusChangeListener {
                     if(it.isSuccessful) {
                         val success = "Account created successfully"
 
+                        //sign out current received user for prompting login activity instead of main activity directly
+                        auth.signOut()
+
                         //switch to signIn activity
                         intent = Intent(this, Login_UI::class.java)
                         startActivity(intent)
